@@ -55,7 +55,7 @@ def get_longest_concat_is_prime(lst):
     nr = 0
     for i in range(len(lst)):
         copyoflst = numbar_reversal(lst[i])
-        while copyoflst:
+        while copyoflst != 0:
             concatnumber = concatnumber * 10 + copyoflst % 10
             copyoflst = copyoflst // 10
         if is_prime(concatnumber):
@@ -67,6 +67,9 @@ def get_longest_concat_is_prime(lst):
             position = i
             nr = 0
             concatnumber = 0
+    if nr > maxim:
+        maxim = nr
+        finalposition = position
     for i in range(finalposition + 1, finalposition + maxim + 1):
         lstmaxim.append(lst[i])
     return lstmaxim
