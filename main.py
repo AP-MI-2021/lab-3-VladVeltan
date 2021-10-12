@@ -1,6 +1,3 @@
-import math
-
-
 def data_introduction():
     """
     citeste o lista
@@ -76,6 +73,7 @@ def get_longest_concat_is_prime(lst):
 
 
 def is_perfect_square(number):
+    import math
     """
     verifica daca number este patrat perfect
     :param number:
@@ -85,6 +83,34 @@ def is_perfect_square(number):
         return True
     else:
         return False
+
+
+def get_longest_all_primes(lst):
+    """
+    calculeaza cea mai mare subsecventa de numere prime
+    :param lst: lista de nr intregi
+    :return: cea mai lunga subsecventa de nr prime
+    """
+    position = -1  # incepe de la -1 altfel nu merge pe cazul cand primul numar este prim
+    finalposition = 0
+    maxim = 0
+    lstmaxim = []
+    nr = 0
+    for i in range(0, len(lst)):
+        if is_prime(lst[i]):
+            nr = nr + 1
+        else:
+            if nr > maxim:
+                finalposition = position
+                maxim = nr
+            position = i
+            nr = 0
+    if nr > maxim:
+        finalposition = position
+        maxim = nr
+    for i in range(finalposition + 1, finalposition + maxim + 1):
+        lstmaxim.append(lst[i])
+    return lstmaxim
 
 
 def get_longest_all_perfect_squares(lst):
@@ -117,6 +143,9 @@ def get_longest_all_perfect_squares(lst):
 
 
 def test_get_longest_all_perfect_squares():
+    """
+    Testeaza functia pentru subsecventa cu toate numerele sunt patrate perfecte
+    """
     assert get_longest_all_perfect_squares([]) == []
     assert get_longest_all_perfect_squares([1, 4, 5, 16, 16, 9]) == [16, 16, 9]
     assert get_longest_all_perfect_squares([9]) == [9]
@@ -124,6 +153,9 @@ def test_get_longest_all_perfect_squares():
 
 
 def test_get_longest_concat_is_prime():
+    """
+    Testeaza functia pentru subsecventa cu toate numerele concatenate prime
+    """
     assert get_longest_concat_is_prime([]) == []
     assert get_longest_concat_is_prime([13, 5, 7]) == [13]
     assert get_longest_concat_is_prime([197, 3, 5, 4, 4]) == [197, 3]
@@ -132,14 +164,26 @@ def test_get_longest_concat_is_prime():
     assert get_longest_concat_is_prime([3, 3, 3, 3]) == [3]
 
 
+def test_get_longest_all_prime():
+    """
+    Testeaza functia pentru subsecventa cu toate numerele prime
+    """
+    assert get_longest_all_primes([]) == []
+    assert get_longest_all_primes([3, 3, 5, 8]) == [3, 3, 5]
+    assert get_longest_all_primes([10, 3, 7, 10]) == [3, 7]
+    assert get_longest_all_primes([12, 7, 5, 3, 2, 20, 4, 4, 4]) == [7, 5, 3, 2]
+
+
 def main():
     test_get_longest_all_perfect_squares()
     test_get_longest_concat_is_prime()
+    test_get_longest_all_prime()
     lst = []
     while True:
         print("1.Citirea datelor")
         print("2.Determinarea celei mai lungi subsecvente cu proprietatea ca toate numerele sunt patrate perfecte")
         print("3.Determinearea celei mai lungi subsecvente cu proprietatea ca concatenarea nr. este nr prim ")
+        print("4.Determinarea celei mai lungi subsevecnte cu proprietatea ca toate numerele sunt prime ")
         print("x.Iesire")
         option = input("Alegeti optiunea: ")
         if option == '1':
@@ -148,6 +192,8 @@ def main():
             print(get_longest_all_perfect_squares(lst))
         elif option == '3':
             print(get_longest_concat_is_prime(lst))
+        elif option == '4':
+            print(get_longest_all_primes(lst))
         else:
             break
 
